@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transmettre</title>
+<meta name="description" content="Une chose appuie sur une autre jusqu'au résultat. Montrer, refaire, vérifier.">
+<meta name="theme-color" content="#f5f2ec">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%225%22 fill=%22%23d4572a%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <span class="mark">Transmettre</span>
+  <nav aria-label="Sections">
+    <a href="#cycle">cycle</a>
+    <a href="#formes">formes</a>
+    <a href="#transmission">transmission</a>
+    <a href="#inverse">inverse</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- 1. Le cycle nu -->
+<section id="cycle" class="sec sec-cycle" aria-label="Le cycle">
+  <canvas id="cv-cycle" class="cv" role="img" aria-label="Une ligne qui avance quand on appuie, qui continue, puis qui s'éteint si rien ne la relance."></canvas>
+  <ol class="phases" aria-hidden="true">
+    <li data-ph="0">commence</li>
+    <li data-ph="1">continue</li>
+    <li data-ph="2">s'arrête</li>
+  </ol>
+  <p class="hint" id="hint-cycle">appuie</p>
+  <a class="down" href="#formes" aria-label="Plus bas">↓</a>
+</section>
+
+<!-- 2. Le gradient de formes -->
+<section id="formes" class="sec sec-formes" aria-label="Les formes">
+  <p class="lead">La même poussée.<br>D'autres formes.</p>
+  <div class="gradient" role="tablist" aria-label="Formes, de la main à l'atome">
+    <button role="tab" data-i="0">levier</button>
+    <button role="tab" data-i="1">roue</button>
+    <button role="tab" data-i="2">poulie</button>
+    <button role="tab" data-i="3">engrenage</button>
+    <button role="tab" data-i="4">machine</button>
+    <button role="tab" data-i="5">onde</button>
+    <button role="tab" data-i="6">puce</button>
+  </div>
+  <div class="stage">
+    <canvas id="cv-formes" class="cv cv-touch" role="img" aria-label="Forme à assembler puis à pousser."></canvas>
+    <button class="arrow prev" aria-label="Forme précédente">‹</button>
+    <button class="arrow next" aria-label="Forme suivante">›</button>
+  </div>
+  <ol class="chain" id="chain-formes" aria-label="La chaîne"></ol>
+  <p class="caption" id="cap-formes"></p>
+  <p class="hint" id="hint-formes"></p>
+</section>
+
+<!-- 3. Transmission -->
+<section id="transmission" class="sec sec-trans" aria-label="Transmission">
+  <p class="lead">Le même geste,<br>d'une personne à l'autre.</p>
+  <ol class="steps" aria-label="Étapes">
+    <li data-s="0">montrer</li>
+    <li data-s="1">refaire</li>
+    <li data-s="2">vérifier</li>
+  </ol>
+  <div class="stage stage-trans">
+    <canvas id="cv-trans" class="cv cv-touch" role="img" aria-label="Le mentor fait un geste. Refais-le par-dessus le modèle."></canvas>
+  </div>
+  <p class="status" id="status-trans" aria-live="polite"></p>
+  <div class="after" id="after-trans" hidden>
+    <button class="ghost" id="again-trans">un autre geste</button>
+    <div class="pay" id="pay">
+      <p>Le résultat tient.</p>
+      <a class="paybtn" id="paybtn" href="#" rel="noopener">une part au mentor</a>
+      <small id="paynote" hidden>lien PayPal à venir</small>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Inverse -->
+<section id="inverse" class="sec sec-inv" aria-label="Ce qui disparaît">
+  <p class="lead">Quand la chaîne est directe,<br>ce qui est en trop s'efface.</p>
+  <div class="stage stage-inv">
+    <canvas id="cv-inv" class="cv cv-touch" role="img" aria-label="Une chaîne entre celle qui sait et celui qui apprend. Touche les étapes en trop pour les effacer."></canvas>
+  </div>
+  <p class="hint" id="hint-inv">touche ce qui est en trop</p>
+  <p class="end" id="end-inv">Rien ne disparaît. Ça se simplifie.<br><span>montrer · refaire · vérifier</span></p>
+  <button class="ghost small" id="reset-inv">recommencer</button>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>Transmettre</span>
+  <span>montrer · refaire · vérifier</span>
+</footer>
+
+<script src="config.js"></script>
+<script src="js/core.js"></script>
+<script src="js/cycle.js"></script>
+<script src="js/formes.js"></script>
+<script src="js/transmission.js"></script>
+<script src="js/inverse.js"></script>
+</body>
+</html>
