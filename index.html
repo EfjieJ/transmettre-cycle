@@ -25,6 +25,7 @@
 
 <!-- 1. Le cycle nu -->
 <section id="cycle" class="sec sec-cycle" aria-label="Le cycle">
+  <img class="bg" id="img-cycle" src="img/01-cycle.webp" width="1280" height="720" alt="Un doigt pousse le premier domino d'une longue rangée." fetchpriority="high" decoding="async">
   <canvas id="cv-cycle" class="cv" role="img" aria-label="Une ligne qui avance quand on appuie, qui continue, puis qui s'éteint si rien ne la relance."></canvas>
   <ol class="phases" aria-hidden="true">
     <li data-ph="0">commence</li>
@@ -48,6 +49,8 @@
     <button role="tab" data-i="6">puce</button>
   </div>
   <div class="stage">
+    <img class="formimg" id="img-forme" src="img/02-levier.webp" width="1280" height="720" alt="" loading="lazy" decoding="async">
+    <div class="veil" id="veil-formes"></div>
     <canvas id="cv-formes" class="cv cv-touch" role="img" aria-label="Forme à assembler puis à pousser."></canvas>
     <button class="arrow prev" aria-label="Forme précédente">‹</button>
     <button class="arrow next" aria-label="Forme suivante">›</button>
@@ -65,6 +68,11 @@
     <li data-s="1">refaire</li>
     <li data-s="2">vérifier</li>
   </ol>
+  <div class="photos" id="photos-trans">
+    <img data-ph="montrer" class="on" src="img/09-montrer.webp" width="1280" height="720" alt="Des mains d'expérience façonnent l'argile, d'autres mains regardent." loading="lazy" decoding="async">
+    <img data-ph="refaire" src="img/10-refaire.webp" width="1280" height="720" alt="Les jeunes mains refont le geste." loading="lazy" decoding="async">
+    <img data-ph="tient" src="img/11-chaine.webp" width="1280" height="720" alt="Un bol passe d'une main à l'autre." loading="lazy" decoding="async">
+  </div>
   <div class="stage stage-trans">
     <canvas id="cv-trans" class="cv cv-touch" role="img" aria-label="Le mentor fait un geste. Refais-le par-dessus le modèle."></canvas>
   </div>
@@ -82,6 +90,7 @@
 <!-- 4. Inverse -->
 <section id="inverse" class="sec sec-inv" aria-label="Ce qui disparaît">
   <p class="lead">Quand la chaîne est directe,<br>ce qui est en trop s'efface.</p>
+  <img class="invimg" id="img-inv" src="img/12-inverse.webp" width="1280" height="720" alt="Deux mains se rejoignent directement; derrière, des bureaux flous s'effacent." loading="lazy" decoding="async">
   <div class="stage stage-inv">
     <canvas id="cv-inv" class="cv cv-touch" role="img" aria-label="Une chaîne entre celle qui sait et celui qui apprend. Touche les étapes en trop pour les effacer."></canvas>
   </div>

@@ -8,6 +8,9 @@
   const tabs = [...document.querySelectorAll('.gradient button')];
   const C = T.col, TAU = Math.PI*2;
   const s = T.canvas(el);
+  const imgEl = document.getElementById('img-forme'), veil = document.getElementById('veil-formes');
+  const IMGS = ['02-levier','03-roue','04-poulie','05-engrenage','06-machine','07-onde','08-puce'];
+  let lastTouch = -10;
   const rot = (x,y,a) => [x*Math.cos(a)-y*Math.sin(a), x*Math.sin(a)+y*Math.cos(a)];
 
   function gearPath(ctx, x, y, r, n, a, tooth){
@@ -215,7 +218,10 @@
     cur = (i + forms.length) % forms.length; fade = 0;
     tabs.forEach((b,j) => { b.setAttribute('aria-selected', j === cur ? 'true' : 'false'); b.tabIndex = j === cur ? 0 : -1; });
     renderChain();
+    const src = 'img/' + IMGS[cur] + '.webp';
+    if (!imgEl.src.endsWith(src)){ imgEl.classList.add('out'); setTimeout(() => { imgEl.src = src; imgEl.alt = forms[cur].nom; }, T.reduced ? 0 : 250); }
   }
+  imgEl.addEventListener('load', () => imgEl.classList.remove('out'));
   tabs.forEach((b,i) => b.addEventListener('click', () => select(i)));
   document.querySelector('.sec-formes .prev').addEventListener('click', () => select(cur-1));
   document.querySelector('.sec-formes .next').addEventListener('click', () => select(cur+1));
@@ -224,10 +230,10 @@
     if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); const st = states[cur]; if (st.built < forms[cur].parts.length){ st.built++; renderChain(); } } });
 
   T.pointer(el, {
-    down(p){ const f = forms[cur], st = states[cur]; lastP = p;
+    down(p){ const f = forms[cur], st = states[cur]; lastP = p; lastTouch = performance.now()/1000;
       if (st.built < f.parts.length){ st.built++; st.building = true; renderChain(); return; }
       st.building = false; f.down && f.down(st, p); },
-    move(p){ const f = forms[cur], st = states[cur]; if (st.building || !lastP){ lastP = p; return; }
+    move(p){ lastTouch = performance.now()/1000; const f = forms[cur], st = states[cur]; if (st.building || !lastP){ lastP = p; return; }
       const dt = (p.t - lastP.t)/1000; f.move && f.move(st, p, p.x-lastP.x, p.y-lastP.y, dt); lastP = p; },
     up(p){ const f = forms[cur], st = states[cur]; lastP = null; if (st.building){ st.building = false; return; } f.up && f.up(st, p); }
   });
@@ -247,8 +253,10 @@
     if (f.energies && done){ const E = f.energies(st); st.e = st.e.map((v,i) => T.lerp(v, E[i], Math.min(1, dt*10))); }
     else { st.e[0] = T.lerp(st.e[0], st.input, Math.min(1, dt*12)); for (let i = 1; i < st.e.length; i++) st.e[i] = T.lerp(st.e[i], st.e[i-1], Math.min(1, dt*(T.reduced?40:7))); }
 
+    const active = t - lastTouch < 2.5;
+    veil.className = 'veil' + (active ? ' on' : (st.built < f.parts.length ? ' half' : ''));
     ctx.clearRect(0, 0, w, h);
-    ctx.globalAlpha = fade;
+    ctx.globalAlpha = fade * (active || st.built < f.parts.length ? 1 : 0.55);
     const D = { ctx, t, e: st.e, done, ghost: false,
       on(i){ ctx.setLineDash([]); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
         if (i < st.built){ D.ghost = false; const col = T.mix(st.e[i]*1.3); ctx.strokeStyle = col; ctx.fillStyle = col; return Math.max(0.001, st.prog[i]); }

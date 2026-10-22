@@ -80,6 +80,8 @@
   const st = { phase: 'montrer', t: 0, shape: 0, user: [], drawing: false, head: 0, tail: 0, laps: 0, glow: [0,0,0,0,0], mini: [0,0,0,0,0], result: null, back: 0 };
   function go(phase){
     st.phase = phase; st.t = 0;
+    const ph = { montrer:'montrer', passer:'montrer', refaire:'refaire', verifier:'refaire', tient:'tient', casse:'montrer', retour:'montrer' }[phase];
+    document.querySelectorAll('#photos-trans img').forEach(im => im.classList.toggle('on', im.dataset.ph === ph));
     const si = { montrer:0, passer:0, refaire:1, verifier:2, tient:2, casse:2, retour:2 }[phase];
     stepEls.forEach((li, i) => { li.classList.toggle('on', i === si); li.classList.toggle('done', i < si); });
     statusEl.textContent = { montrer:'regarde', passer:'', refaire:'à toi · refais le même geste', verifier:'…', tient:'ça tient · ça passe', casse:'ça casse · on recommence', retour:'ça casse · on recommence' }[phase];

@@ -20,13 +20,13 @@
     const L = live().filter(n => !n.gone), cnt = L.length, span = T.lerp(w*0.42, w*0.84, (cnt-2)/3);
     const t = new Map(); L.forEach((n, i) => t.set(n, w/2 - span/2 + span*i/(cnt-1))); return t;
   }
-  function remove(n){ if (n.kind !== 'b' || n.gone) return; n.gone = true; if (nodes.every(m => m.kind === 'p' || m.gone)){ hint.classList.add('off'); endEl.classList.add('on'); } }
+  function remove(n){ if (n.kind !== 'b' || n.gone) return; n.gone = true; if (nodes.every(m => m.kind === 'p' || m.gone)){ hint.classList.add('off'); endEl.classList.add('on'); document.getElementById('img-inv').classList.add('clear'); } }
   function nearest(p){ const y = s.h/2; let best = null, bd = 44; nodes.forEach(n => { if (n.kind !== 'b' || n.gone || n.x == null) return; const d = Math.hypot(n.x - p.x, y - p.y); if (d < bd){ bd = d; best = n; } }); return best; }
 
   T.pointer(el, { down(p){ const n = nearest(p); if (n) remove(n); }, hover(p){ const n = nearest(p); nodes.forEach(m => m.hoverOn = m === n); el.style.cursor = n ? 'pointer' : 'default'; } });
   el.tabIndex = 0;
   el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); const n = nodes.find(m => m.kind === 'b' && !m.gone); if (n) remove(n); } });
-  document.getElementById('reset-inv').addEventListener('click', () => { nodes = base(); simple = 0; pulse = { x: 0, str: 1, wait: 0, passed: new Set() }; hint.classList.remove('off'); endEl.classList.remove('on'); });
+  document.getElementById('reset-inv').addEventListener('click', () => { nodes = base(); simple = 0; pulse = { x: 0, str: 1, wait: 0, passed: new Set() }; hint.classList.remove('off'); endEl.classList.remove('on'); document.getElementById('img-inv').classList.remove('clear'); });
 
   T.loop(el, (dt, t) => {
     const { ctx, w, h } = s; if (!w) return;

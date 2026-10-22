@@ -5,6 +5,7 @@
   const phases = [...document.querySelectorAll('.phases li')];
   const C = T.col;
   const s = T.canvas(el);
+  const img = document.getElementById('img-cycle');
 
   const st = { x: 0, v: 0, lap: 0, push: false, brake: 0, trail: [], ghosts: [], glow: 0, idle: 0, touched: false, phase: -1, lastX: null, holdT: 0 };
   const MAXV = 900;
@@ -31,7 +32,7 @@
 
   T.loop(el, (dt, t) => {
     const { ctx, w, h } = s; if (!w) return;
-    const y = h*0.5, x0 = start(), x1 = end(), L = x1 - x0;
+    const y = h*0.8, x0 = start(), x1 = end(), L = x1 - x0;
 
     // physique : poussée, frottement, frein
     if (st.push){ st.holdT += dt; st.v += (520 + 260*Math.min(1, st.holdT)) * dt; }
@@ -58,6 +59,7 @@
     const life = st.v > 0 || st.push ? 1 : Math.max(0, 1 - st.idle/2.4);
     if (st.v === 0 && st.idle > 2.4 && st.trail.length){ st.trail = []; st.x = 0; st.ghosts = []; st.lap = 0; }
 
+    if (img && !T.reduced) img.style.transform = 'scale(' + (1 + 0.035*st.v/MAXV).toFixed(4) + ')';
     ctx.clearRect(0,0,w,h);
     // rail
     ctx.strokeStyle = C.faint; ctx.lineWidth = 1;
